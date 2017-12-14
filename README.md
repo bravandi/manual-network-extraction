@@ -1,4 +1,4 @@
-D3 Javascript Interactive Directed Graph Creator
+Web Based Interactive Directed Graph Creator (D3 Javascript)
 ======================
 
 This is an extended version of directed-graph-creator from: https://github.com/cjrd/directed-graph-creator

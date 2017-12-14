@@ -1,4 +1,4 @@
-directed-graph-creator
+D3 Javascript Interactive Directed Graph Creator
 ======================
 
 This is an extended version of directed-graph-creator from: https://github.com/cjrd/directed-graph-creator
@@ -6,11 +6,12 @@ This is an extended version of directed-graph-creator from: https://github.com/c
 Interactive tool for creating directed graphs, created using d3.js. The graph can be created on a background image.
 
 My contributions:
-* Added labels to the edges.
+* added labels to the edges.
 * ctrl+click to change a node label.
 
 Operation:
 
+* download/upload graph in JSON format
 * drag/scroll to translate/zoom the graph
 * shift-click on graph to create a node
 * shift-click on a node and then drag to another node to connect them with a directed edge

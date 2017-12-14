@@ -1,19 +1,87 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <link rel="stylesheet" href="graph-creator.css" />
-  </head>
+<head>
+    <link rel="stylesheet" href="graph-creator.css"/>
+</head>
 
-  <body>
-    <div id="graph">
+<body>
+<div>
+    <img src="sample_background.jpg" style="position: absolute;margin: 5px;">
+    <svg id="graph" style="position: absolute;opacity: 0.9;"></svg>
     <div id="toolbox">
-      <input type="file" id="hidden-file-upload"><input id="upload-input" type="image" title="upload graph" src="upload-icon.png" alt="upload graph"> <input type="image" id="download-input" title="download graph" src="download-icon.png" alt="download graph"> <input type="image" id="delete-graph" title="delete graph" src="trash-icon.png" alt="delete graph">
+        <input type="file" id="hidden-file-upload">
+        <input id="upload-input" type="image" title="upload graph" src="upload-icon.png" alt="upload graph">
+        <input type="image" id="download-input" title="download graph" src="download-icon.png" alt="download graph">
+        <input type="image" id="delete-graph" title="delete graph" src="trash-icon.png" alt="delete graph">
     </div>
-    </div>
+</div>
 
-    <script src="//d3js.org/d3.v3.js" charset="utf-8"></script>
-    <script src="//cdn.jsdelivr.net/filesaver.js/0.1/FileSaver.min.js"></script>
-    <script src="graph-creator.js"></script>
-  </body>
+<script src="//d3js.org/d3.v3.js" charset="utf-8"></script>
+<script src="//cdn.jsdelivr.net/filesaver.js/0.1/FileSaver.min.js"></script>
+<script src="graph-creator.js"></script>
+<script type="text/javascript">
+    document.onload = (function (d3, undefined) {
+        d3.select("#hide-show").on("click", function () {
+            if (d3.select("svg").classed("hide_svg")) {
+                d3.select("svg").classed("hide_svg", false);
+            } else {
+                d3.select("svg").classed("hide_svg", true);
+            }
+        });
+
+        // warn the user when leaving
+        window.onbeforeunload = function () {
+            return "Make sure to save your graph locally before leaving :-)";
+        };
+
+        var docEl = document.documentElement,
+            bodyEl = document.getElementsByTagName('body')[0];
+
+        var width = window.innerWidth || docEl.clientWidth || bodyEl.clientWidth,
+            height = window.innerHeight || docEl.clientHeight || bodyEl.clientHeight;
+
+        // initial node data
+        var nodes = [];
+        var edges = [];
+
+        nodes = [
+            {"id": 0, "title": "0", "x": 100, "y": 100},
+            {"id": 1, "title": "1|Ctrl+Click to Edit", "x": 400, "y": 400}
+        ];
+        edges = [{
+            "source": nodes[0],
+            "target": nodes[1],
+            "label": "Ctrl+Click to Edit Me!"
+        }];
+
+        /** MAIN SVG **/
+        var svg = d3.select("#graph")
+            .attr("width", width)
+            .attr("height", height);
+
+        var graph = new d3.GraphCreator(svg, nodes, edges,
+            {
+                defaultEdgeLabel: "Default Edge Label",
+                selectedClass: "selected",
+                connectClass: "connect-node",
+                circleGClass: "conceptG",
+                graphClass: "graph",
+                enabelZoom: true,
+                activeEditId: "active-editing",
+                BACKSPACE_KEY: 8,
+                DELETE_KEY: 46,
+                ENTER_KEY: 13,
+                nodeRadius: 7,
+                marker_refx: 15, // Arrow position
+                marker_width: 4 // Arrow size
+            });
+
+        graph.setIdCt(2);
+        graph.updateGraph();
+
+        g = graph;
+    })(window.d3);
+</script>
+</body>
 
 </html>

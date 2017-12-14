@@ -1,16 +1,17 @@
-body{
+body {
     margin: 0;
     padding: 0;
-    overflow:hidden;
+    overflow: hidden;
 }
 
-p{ 
-     text-align: center; 
-     overflow: overlay;
-     position: relative;
+p {
+    /*text-align: center; */
+    /*overflow: overlay;*/
+    /*position: relative;*/
+    color: red;
 }
 
-body{
+body {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -20,8 +21,9 @@ body{
     background-color: rgb(248, 248, 248)
 }
 
-#toolbox{
+#toolbox {
     position: absolute;
+    background-color: white;
     bottom: 0;
     left: 0;
     margin-bottom: 0.5em;
@@ -32,64 +34,76 @@ body{
     z-index: 5;
 }
 
-#toolbox input{
+#toolbox input {
     width: 30px;
     opacity: 0.4;
 }
-#toolbox input:hover{
+
+#toolbox input:hover {
     opacity: 1;
     cursor: pointer;
 }
 
-#hidden-file-upload{
+#hidden-file-upload {
     display: none;
 }
 
-#download-input{
+#download-input {
     margin: 0 0.5em;
 }
 
-.conceptG text{
+.conceptG text {
     pointer-events: none;
 }
 
-marker{
-    fill: #333;
-}
-
-g.conceptG circle{
+g.conceptG circle {
     fill: #F6FBFF;
     stroke: #333;
     stroke-width: 2px;
 }
 
-g.conceptG:hover circle{
+g.conceptG:hover circle {
     fill: rgb(200, 238, 241);
 }
 
-g.selected circle{
+g.selected circle {
     fill: rgb(250, 232, 255);
 }
-g.selected:hover circle{
+
+g.selected:hover circle {
     fill: rgb(250, 232, 255);
 }
 
 path.link {
     fill: none;
-    stroke: #333;
-    stroke-width: 6px;
+    stroke: khaki;
+    stroke-width: 3px;
     cursor: default;
 }
 
-path.link:hover{
+marker {
+    fill: white;
+    stroke: brown;
+}
+
+#mark-end-arrow, #end-arrow, #end-arrow path, #mark-end-arrow path {
+    /* targeted to the marker used to make the arrows*/
+}
+
+text {
+    /*nodes text color*/
+    fill: orangered;
+}
+
+path.link:hover {
     stroke: rgb(94, 196, 204);
 }
 
-g.connect-node circle{
+g.connect-node circle {
     fill: #BEFFFF;
 }
 
-path.link.hidden{
+path.link.hidden {
     stroke-width: 0;
 }
 

@@ -22,7 +22,9 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
                 DELETE_KEY: 46,
                 ENTER_KEY: 13,
                 nodeRadius: 4,
-                marker_refx: 16
+                marker_refx: 16, // Arrow position
+                marker_width: 6, // Arrow size
+                label_edit_box_width: 100
             }, params);
 
         thisGraph.nodes = nodes || [];
@@ -46,8 +48,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             .attr('id', 'end-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', thisGraph.consts.marker_refx)
-            .attr('markerWidth', 3.5)
-            .attr('markerHeight', 3.5)
+            .attr('markerWidth', thisGraph.consts.marker_width)
+            .attr('markerHeight', thisGraph.consts.marker_width)
             .attr('orient', 'auto')
             .append('svg:path')
             .attr('d', 'M0,-5L10,0L0,5');
@@ -57,8 +59,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             .attr('id', 'mark-end-arrow')
             .attr('viewBox', '0 -5 10 10')
             .attr('refX', 7)
-            .attr('markerWidth', 3.5)
-            .attr('markerHeight', 3.5)
+            .attr('markerWidth', thisGraph.consts.marker_width)
+            .attr('markerHeight', thisGraph.consts.marker_width)
             .attr('orient', 'auto')
             .append('svg:path')
             .attr('d', 'M0,-5L10,0L0,5');
@@ -138,10 +140,6 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
         // handle download data
         d3.select("#download-input").on("click", function () {
-            for(var i = 0 ; i < thisGraph.nodes.length; i++){
-                thisGraph.nodes[i].title = String(thisGraph.nodes[i].id);
-            }
-
             var saveEdges = [];
             thisGraph.edges.forEach(function (val, i) {
                 saveEdges.push({source: val.source.id, target: val.target.id, label: val.label});
@@ -248,10 +246,13 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
     /* insert svg line breaks: taken from http://stackoverflow.com/questions/13241475/how-do-i-include-newlines-in-labels-in-d3-charts */
     GraphCreator.prototype.insertTitleLinebreaks = function (gEl, title) {
+        title = title;
+
         var words = title.split(/\s+/g),
             nwords = words.length;
         var el = gEl.append("text")
             .attr("text-anchor", "middle")
+            .attr("class", "node-label")
             .attr("dy", "-" + (nwords - 1) * 7.5);
 
         for (var i = 0; i < words.length; i++) {
@@ -365,6 +366,9 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             curScale = nodeBCR.width / consts.nodeRadius,
             placePad = 5 * curScale,
             useHW = curScale > 1 ? nodeBCR.width * 0.71 : consts.nodeRadius * 1.42;
+
+        //Having a constant might be better
+        useHW = consts.label_edit_box_width;
         // replace with editableconent text
         var d3txt = thisGraph.svg.selectAll("foreignObject")
             .data([d])
@@ -375,7 +379,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             .attr("height", 2 * useHW)
             .attr("width", useHW)
             .append("xhtml:p")
-            .attr("id", consts.activeEditId)
+            .attr("id", consts.activeEditId + "_node")
             .attr("contentEditable", "true")
             .text(d.title)
             .on("mousedown", function (d) {
@@ -391,7 +395,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
                 d.title = this.textContent;
                 thisGraph.insertTitleLinebreaks(d3node, d.title);
                 d3.select(this.parentElement).remove();
-            });
+            })
+        ;
         return d3txt;
     };
 
@@ -406,6 +411,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             curScale = nodeBCR.width / consts.nodeRadius,
             placePad = 5 * curScale,
             useHW = curScale > 1 ? nodeBCR.width * 0.71 : consts.nodeRadius * 1.42;
+        useHW = 200;
         // replace with editableconent text
         var d3txt = thisGraph.svg.selectAll("foreignObject")
             .data([d])
@@ -416,7 +422,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             .attr("height", 2 * useHW)
             .attr("width", useHW)
             .append("xhtml:p")
-            .attr("id", consts.activeEditId)
+            .attr("id", consts.activeEditId + "_ed")
             .attr("contentEditable", "true")
             .text(d.label)
             .on("mousedown", function (d) {
@@ -587,6 +593,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
     // keydown on main svg
     GraphCreator.prototype.svgKeyDown = function () {
+        console.log("KEY");
         var thisGraph = this,
             state = thisGraph.state,
             consts = thisGraph.consts;
@@ -708,7 +715,13 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             .call(thisGraph.drag);
 
         newGs.append("circle")
-            .attr("r", String(consts.nodeRadius));
+            .attr("r", String(consts.nodeRadius))
+            .attr("class", function (d) {
+                if (d.module) {
+                    return "mod_" + d.module;
+                }
+            })
+        ;
 
         newGs.each(function (d) {
             thisGraph.insertTitleLinebreaks(d3.select(this), d.title);

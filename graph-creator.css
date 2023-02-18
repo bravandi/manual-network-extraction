@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 p {
@@ -9,6 +9,10 @@ p {
     /*overflow: overlay;*/
     /*position: relative;*/
     color: red;
+}
+
+svg {
+    border: 2px solid black;
 }
 
 body {
@@ -76,8 +80,9 @@ g.selected:hover circle {
 
 path.link {
     fill: none;
-    stroke: khaki;
-    stroke-width: 3px;
+    /*stroke: khaki;*/
+    stroke: red;
+    stroke-width: 1px;
     cursor: default;
 }
 
@@ -92,7 +97,7 @@ marker {
 
 text {
     /*nodes text color*/
-    fill: orangered;
+    fill: red;
 }
 
 path.link:hover {

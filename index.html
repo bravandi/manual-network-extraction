@@ -6,8 +6,10 @@
 
 <body>
 <div>
-    <img src="sample_background.jpg" style="position: absolute;margin: 5px;">
-    <svg id="graph" style="position: absolute;opacity: 0.9;"></svg>
+    <div>
+        <img src="SantaFe_collab_net_LCC.jpeg" style="position: absolute;margin: 5px;">
+    </div>
+    <svg id="graph" style="position: absolute;opacity: 0.9; width: 2000px !important; height: 2000px !important;"></svg>
     <div id="toolbox">
         <input type="file" id="hidden-file-upload">
         <input id="upload-input" type="image" title="upload graph" src="upload-icon.png" alt="upload graph">
@@ -46,12 +48,13 @@
 
         nodes = [
             {"id": 0, "title": "0", "x": 100, "y": 100},
-            {"id": 1, "title": "1|Ctrl+Click to Edit", "x": 400, "y": 400}
+            {"id": 1, "title": "1", "x": 400, "y": 400}
         ];
         edges = [{
             "source": nodes[0],
             "target": nodes[1],
-            "label": "Ctrl+Click to Edit Me!"
+            //"label": "Ctrl+Click to Edit Me!"
+            "label": ""
         }];
 
         /** MAIN SVG **/
@@ -61,12 +64,12 @@
 
         var graph = new d3.GraphCreator(svg, nodes, edges,
             {
-                defaultEdgeLabel: "Default Edge Label",
+                defaultEdgeLabel: "",
                 selectedClass: "selected",
                 connectClass: "connect-node",
                 circleGClass: "conceptG",
                 graphClass: "graph",
-                enabelZoom: true,
+                enabelZoom: false,
                 activeEditId: "active-editing",
                 BACKSPACE_KEY: 8,
                 DELETE_KEY: 46,

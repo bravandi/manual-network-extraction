@@ -1,0 +1,9 @@
+Cluster1
+	list(range(0,17))
+
+Cluster2
+	list(range(17,41))
+
+Cluster3
+	l = list(range(41,56)) + list([117])
+	l.remove(55)
